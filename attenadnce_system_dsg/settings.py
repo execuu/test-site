@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as message_constants
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +28,9 @@ SECRET_KEY = 'django-insecure-t_s-#ilqq$#uyldp+8c-(lv$@ioe4dy-u^g4#8d9uv_(qpb!zt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'attendancedostsg.ddns.net']
-
+ALLOWED_HOSTS = ['qrcode-attendance-dost-sg-production.up.railway.app', 'https://qrcode-attendance-dost-sg-production.up.railway.app']
 CSRF_TRUSTED_ORIGINS = [
-    'https://da29-49-146-164-152.ngrok-free.app/',  # replace with your Ngrok domain
+    'qrcode-attendance-dost-sg-production.up.railway.app',  # replace with your Ngrok domain
 ]
 
 # DISABLE IF EVER IN PRODUCTION
@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'crispy_forms',
     'sslserver',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'accounts.middleware.GroupMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'attenadnce_system_dsg.urls'
@@ -105,11 +107,13 @@ WSGI_APPLICATION = 'attenadnce_system_dsg.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default="postgres://USER:PASSWORD@HOST:PORT/DB_NAME",
+        conn_max_age=600,
+        ssl_require=False,
+    )
 }
+
 
 
 # Password validation
@@ -153,8 +157,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Global static directory path
 ]
 
+# White Noise Stuff
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Directory where static files will be collected in production
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Optional for production use
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Optional for production use
 
 
 # Default primary key field type
