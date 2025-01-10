@@ -14,6 +14,9 @@ from pathlib import Path
 from django.contrib.messages import constants as message_constants
 import os
 import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,9 +31,9 @@ SECRET_KEY = 'django-insecure-t_s-#ilqq$#uyldp+8c-(lv$@ioe4dy-u^g4#8d9uv_(qpb!zt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qrcode-attendance-dost-sg-production.up.railway.app', 'https://qrcode-attendance-dost-sg-production.up.railway.app']
+ALLOWED_HOSTS = ['qrcode-attendance-dost-sg-production.up.railway.app', 'https://qrcode-attendance-dost-sg-production.up.railway.app', '*']
 CSRF_TRUSTED_ORIGINS = [
-    'qrcode-attendance-dost-sg-production.up.railway.app',  # replace with your Ngrok domain
+    'https://qrcode-attendance-dost-sg-production.up.railway.app',  # replace with your Ngrok domain
 ]
 
 # DISABLE IF EVER IN PRODUCTION
@@ -107,11 +110,16 @@ WSGI_APPLICATION = 'attenadnce_system_dsg.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgres://USER:PASSWORD@HOST:PORT/DB_NAME",
-        conn_max_age=600,
-        ssl_require=False,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'tGtQjdiOlsTObgxkWvTscxVVCkJbappf',
+        'HOST': 'junction.proxy.rlwy.net',
+        'PORT': '17128',
+
+    }
+
 }
 
 
