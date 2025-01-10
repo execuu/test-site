@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-t_s-#ilqq$#uyldp+8c-(lv$@ioe4dy-u^g4#8d9uv_(qpb!zt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qrcode-attendance-dost-sg-production.up.railway.app', 'https://qrcode-attendance-dost-sg-production.up.railway.app', '*']
+ALLOWED_HOSTS = ['qrcode-attendance-dost-sg-production.up.railway.app', 'https://qrcode-attendance-dost-sg-production.up.railway.app',]
 CSRF_TRUSTED_ORIGINS = [
     'https://qrcode-attendance-dost-sg-production.up.railway.app',  # replace with your Ngrok domain
 ]
@@ -114,7 +114,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'tGtQjdiOlsTObgxkWvTscxVVCkJbappf',
+        'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': 'junction.proxy.rlwy.net',
         'PORT': '17128',
 
